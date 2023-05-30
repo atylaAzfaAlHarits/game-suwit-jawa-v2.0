@@ -1,3 +1,16 @@
+function checkScreenSize() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth < 768) {
+      const check = confirm('Halaman ini hanya bisa dibuka oleh desktop saja');
+      if(check){
+        window.location.href = "forbidden.html";
+    }
+    window.location.href = "forbidden.html";
+    }
+  }
+  checkScreenSize();
+  window.addEventListener("resize", checkScreenSize);
+
 function getComputerChoice(){
     const computer = Math.random();
     if(computer < 0.34) return 'gajah';

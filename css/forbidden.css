@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-family: monospace;
+}
+
+div, h2{
+    display: flex;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 50px;
+}
+
+button{
+    padding: 0.9rem 2rem;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    margin: 5px;
+    background: rgb(21, 231, 193);
+    margin-top: 11px;
+    font-family: monospace;
+}
+
+button:hover{
+    background: rgb(18, 182, 237);
+}
