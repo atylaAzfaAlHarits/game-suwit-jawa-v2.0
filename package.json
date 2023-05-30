@@ -1,0 +1,11 @@
+{
+  "name": "suwit-jawa-v2.0",
+  "version": "1.0.0",
+  "description": "Game ini adalah hasil modifikasi dari project game suwit jawa v2.0 dari WPU",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Atyla Azfa Al Harits",
+  "license": "ISC"
+}
