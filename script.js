@@ -1,60 +1,96 @@
 function getComputerChoice(){
-    const comp = Math.random();
-    if(comp < 0.34) return 'gajah';
-    if(comp >= 0.34 && comp < 0.67) return 'orang';
+    const computer = Math.random();
+    if(computer < 0.34) return 'gajah';
+    if(computer >= 0.34 && computer > 0.67 ) return 'orang';
     return 'semut';
 }
 
 function getResult(computer, player){
-    if (player === computer) return 'Seri';
-    if (player === 'gajah') {
-        if (computer === 'orang') return 'Menang';
-        if (computer === 'semut') return 'Kalah';
-    }
-    if (player === 'orang') {
-        if (computer === 'gajah') return 'Kalah';
-        if (computer === 'semut') return 'Menang';
-    }
-    if (player === 'semut') {
-        if (computer === 'gajah') return 'Menang';
-        if (computer === 'orang') return 'Kalah';
-    }
-
+    if(player == computer) return 'Seri';
+    if(player == 'gajah') return (computer == 'orang') ? 'Menang' : 'Kalah';
+    if(player == 'orang') return (computer == 'gajah') ? 'Kalah' : 'Menang';
+    if(player == 'semut') return (computer == 'orang') ? 'Kalah' : 'Menang';
 }
 
-function turn(){
-    const imgComputer = document.querySelector('.img-komputer');
-    const image = ['gajah', 'semut', 'orang'];
-    let i = 0;
+function turnImgComputer(){
+    const getImgComputer = document.querySelector('.img-komputer');
     const startTime = new Date().getTime();
-    setInterval(function() {
+    const stringChoice = ['gajah', 'orang', 'semut'];
+    let i = 0;
+    setInterval(function(){
         if(new Date().getTime() - startTime > 1000){
             clearInterval();
             return;
         }
-        imgComputer.setAttribute('src', `img/${image[i++]}.png`);
-        if(i == image.length) i = 0;
+        getImgComputer.setAttribute('src', `img/${stringChoice[i++]}.png`);
+        if(i == stringChoice.length) i = 0;
     }, 100);
 }
 
+function countScore(result){
+    const sComputer = document.querySelector('.count-sComputer');
+    const sPlayer = document.querySelector('.count-sPlayer');
 
-const imgP = document.querySelectorAll('li img');
-imgP.forEach(function(imgButton){
-    imgButton.addEventListener('click', function(){
+    let scoreComputer = parseInt(localStorage.getItem('scoreComputer')) || 0;
+    let scorePlayer = parseInt(localStorage.getItem('scorePlayer')) || 0;
+
+    if(result === 'Menang'){
+        if(scoreComputer === 0){
+            scorePlayer += 100;
+            scoreComputer += 0;
+        }else{
+            scorePlayer += 100;
+            scoreComputer -= 50;
+        }
+        sComputer.textContent = scoreComputer;
+        sPlayer.textContent = scorePlayer;
+        localStorage.setItem('scorePlayer', scorePlayer);
+        localStorage.setItem('scoreComputer', scoreComputer);           
+    }else if(result === 'Kalah'){
+        if(scorePlayer === 0){
+            scoreComputer += 100;
+            scorePlayer += 0;
+        }else{
+            scoreComputer += 100;
+            scorePlayer -= 50;
+        }        
+        sComputer.textContent = scoreComputer;
+        sPlayer.textContent = scorePlayer;
+        localStorage.setItem('scorePlayer', scorePlayer);
+        localStorage.setItem('scoreComputer', scoreComputer);
+    }else{
+        scorePlayer = scorePlayer;
+        scoreComputer = scoreComputer;
+        sComputer.textContent = scoreComputer;
+        sPlayer.textContent = scorePlayer;
+        localStorage.setItem('scorePlayer', scorePlayer);
+        localStorage.setItem('scoreComputer', scoreComputer);
+    }
+}
+
+
+const imgPlayer = document.querySelectorAll('li img');
+imgPlayer.forEach(function(choice){
+    choice.addEventListener('click', function(){
+        const playerChoice = choice.className;
         const computerChoice = getComputerChoice();
-        const playerChoice = imgButton.className;
         const result = getResult(computerChoice, playerChoice);
 
-        turn();
-
-        console.log(computerChoice);
-        console.log(playerChoice);
-
+        turnImgComputer();
+        countScore();
+        
         setTimeout(function(){
-            const info = document.querySelector('.info');
-            const imgComp = document.querySelector('.img-komputer');
-            imgComp.setAttribute(`src`, `img/${computerChoice}.png`);
-            info.innerHTML = result;
+        countScore(result);
+        const getClassInfo = document.querySelector('.info');
+        const getImgComputer = document.querySelector('.img-komputer');
+        getClassInfo.innerHTML = result;
+
+        getImgComputer.setAttribute('src', `img/${computerChoice}.png`);
         }, 1000);
     });
-})
+});
+
+window.addEventListener('load', function(){
+    localStorage.setItem('scorePlayer', 0);
+    localStorage.setItem('scoreComputer', 0);
+});
