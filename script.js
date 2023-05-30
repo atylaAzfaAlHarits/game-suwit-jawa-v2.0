@@ -90,7 +90,31 @@ imgPlayer.forEach(function(choice){
     });
 });
 
+if(localStorage.getItem('scorePlayer') == 1000){
+    const resultGame = confirm('Selamat kamu sudah memenangkan game ini. Mau bermain lagi?');
+    if(resultGame){
+        window.addEventListener('load', function(){
+            localStorage.setItem('scorePlayer', 0);
+            localStorage.setItem('scoreComputer', 0);
+        });
+    }
+} else if(localStorage.getItem('scoreComputer') == 1000){
+    const resultGame = confirm('Kamu dikalahkan oleh computer. Mau bermain lagi?');
+    if(resultGame){
+        window.addEventListener('load', function(){
+            localStorage.setItem('scorePlayer', 0);
+            localStorage.setItem('scoreComputer', 0);
+        });
+    }
+}
+
 window.addEventListener('load', function(){
-    localStorage.setItem('scorePlayer', 0);
-    localStorage.setItem('scoreComputer', 0);
+    const question = confirm('Jika kamu merefresh halaman ini, permainan akan di reset');
+    if(question){
+        localStorage.setItem('scorePlayer', 0);
+        localStorage.setItem('scoreComputer', 0);
+    }else{
+        sComputer.textContent = scoreComputer;
+        sPlayer.textContent = scorePlayer;
+    }
 });
