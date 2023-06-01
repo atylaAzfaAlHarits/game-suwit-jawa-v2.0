@@ -35,7 +35,7 @@ function turnImgComputer(){
             clearInterval();
             return;
         }
-        getImgComputer.setAttribute('src', `img/${stringChoice[i++]}.png`);
+        getImgComputer.setAttribute('src', `../img/${stringChoice[i++]}.png`);
         if(i == stringChoice.length) i = 0;
     }, 100);
 }
@@ -89,6 +89,24 @@ imgPlayer.forEach(function(choice){
         const computerChoice = getComputerChoice();
         const result = getResult(computerChoice, playerChoice);
 
+        if(localStorage.getItem('scorePlayer') == 1000){
+            const resultGame = confirm('Selamat kamu sudah memenangkan game ini. Mau bermain lagi?');
+            if(resultGame){
+                localStorage.setItem('scorePlayer', 0);
+                localStorage.setItem('scoreComputer', 0);
+            }else{
+                window.location.href = '../index.html';
+            }
+        } else if(localStorage.getItem('scoreComputer') == 1000){
+            const resultGame = confirm('Kamu dikalahkan oleh computer. Mau bermain lagi?');
+            if(resultGame){
+                localStorage.setItem('scorePlayer', 0);
+                localStorage.setItem('scoreComputer', 0);
+            }else{
+                window.location.href = '../index.html';
+            }
+        }
+
         turnImgComputer();
         countScore();
         
@@ -98,28 +116,10 @@ imgPlayer.forEach(function(choice){
         const getImgComputer = document.querySelector('.img-komputer');
         getClassInfo.innerHTML = result;
 
-        getImgComputer.setAttribute('src', `img/${computerChoice}.png`);
+        getImgComputer.setAttribute('src', `../img/${computerChoice}.png`);
         }, 1000);
     });
 });
-
-if(localStorage.getItem('scorePlayer') == 1000){
-    const resultGame = confirm('Selamat kamu sudah memenangkan game ini. Mau bermain lagi?');
-    if(resultGame){
-        window.addEventListener('load', function(){
-            localStorage.setItem('scorePlayer', 0);
-            localStorage.setItem('scoreComputer', 0);
-        });
-    }
-} else if(localStorage.getItem('scoreComputer') == 1000){
-    const resultGame = confirm('Kamu dikalahkan oleh computer. Mau bermain lagi?');
-    if(resultGame){
-        window.addEventListener('load', function(){
-            localStorage.setItem('scorePlayer', 0);
-            localStorage.setItem('scoreComputer', 0);
-        });
-    }
-}
 
 window.addEventListener('load', function(){
     const question = confirm('Jika kamu merefresh halaman ini, permainan akan di reset');
